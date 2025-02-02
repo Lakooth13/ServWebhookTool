@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServNuker Web Edition</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #111111;
+            z-index: -1;
+        }
+        .container {
+            width: 384px;
+            background-color: rgba(33, 33, 33, 0.8);
+            border-radius: 8px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            padding: 20px;
+        }
+        .version {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            background-color: black;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        button {
+            width: 100%;
+            background-color: #0c0c0c;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+        button:hover {
+            background-color: #1a1a1a;
+        }
+        .divider {
+            border-top: 1px solid #555;
+            margin: 16px 0;
+        }
+        .disclaimer {
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="version">V1 | Support me 🙏 | Cashapp : rileyhampton19</div>
+    <div class="container">
+        <label for="webhook">Webhook</label>
+        <input type="text" id="webhook" placeholder="Enter webhook URL">
+        
+        <label for="delay">Delay (0.1 - 2)</label>
+        <input type="number" id="delay" min="0.1" max="2" step="0.1" value="0.1">
+        
+        <label for="discordInvite">Discord Invite Link</label>
+        <input type="text" id="discordInvite" placeholder="Enter Discord invite link">
+        
+        <label for="imageFooter">Image / Gif Footer</label>
+        <input type="text" id="imageFooter" placeholder="Enter image or gif URL for footer">
+        
+        <button id="deleteWebhook">Delete Webhook</button>
+        <button id="spamWebhook">Spam Webhook</button>
+        
+        <div class="divider"></div>
+        <p class="disclaimer">Made by STXServ on Discord, Version V1</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 1000
+                    }
+                },
+                "color": {
+                    "value": ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#fff"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "img/github.svg",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.6,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 2,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 120,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": false
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        const deleteWebhookButton = document.getElementById('deleteWebhook');
+const spamWebhookButton = document.getElementById('spamWebhook');
+const webhookInput = document.getElementById('webhook');
+const delayInput = document.getElementById('delay');
+const discordInviteInput = document.getElementById('discordInvite');
+const imageFooterInput = document.getElementById('imageFooter');
+
+deleteWebhookButton.addEventListener('click', async () => {
+    const webhookUrl = webhookInput.value.trim();
+    if (!webhookUrl) {
+        alert("Please enter a webhook URL.");
+        return;
+    }
+
+    try {
+        const response = await fetch(webhookUrl, { method: 'DELETE' });
+        if (response.ok) {
+            alert("Webhook deleted successfully!");
+        } else {
+            alert("Failed to delete webhook. It might not exist or is already deleted.");
+        }
+    } catch (error) {
+        alert("Error deleting webhook: " + error);
+    }
+});
+
+spamWebhookButton.addEventListener('click', () => {
+    const webhookUrl = webhookInput.value.trim();
+    const delay = parseFloat(delayInput.value) * 1000; // Convert seconds to milliseconds
+    const discordInvite = discordInviteInput.value.trim();
+    const imageFooter = imageFooterInput.value.trim();
+
+    if (!webhookUrl) {
+        alert("Please enter a webhook URL.");
+        return;
+    }
+
+    if (delay < 100 || delay > 2000) {
+        alert("Delay must be between 0.1 and 2 seconds.");
+        return;
+    }
+
+    const messageData = {
+        content: `Hey, You probably got messaged because you're using this webhook for naughty purposes, Try better next time!\n${discordInvite} ${imageFooter}`
+    };
+
+    function sendMessage() {
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(messageData)
+        }).then(response => {
+            if (!response.ok) {
+                console.error("Failed to send message:", response.statusText);
+            }
+        }).catch(error => console.error("Error:", error));
+    }
+
+    // Start spamming
+    setInterval(sendMessage, delay);
+    alert("Spamming started! Refresh the page to stop.");
+});
+
+    </script>
+</body>
+</html>
+
